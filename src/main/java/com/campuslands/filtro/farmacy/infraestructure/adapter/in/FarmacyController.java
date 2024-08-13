@@ -1,8 +1,7 @@
 package com.campuslands.filtro.farmacy.infraestructure.adapter.in;
 
-import jakarta.validation.Valid;
 
-import org.springframework.validation.annotation.Validated;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.campuslands.filtro.farmacy.application.FarmacyService;
 import com.campuslands.filtro.farmacy.domain.Farmacy;
 
-@Validated
 @RestController
 @RequestMapping("/api/farmacy")
 public class FarmacyController {
@@ -27,35 +25,35 @@ public class FarmacyController {
     private FarmacyService service;
 
     @PostMapping("/saveFarmacy")
-    public ResponseEntity<Farmacy> saveFarmacy(@Valid @RequestBody Farmacy farmacy) {
+    public ResponseEntity<Farmacy> saveFarmacy(@RequestBody Farmacy farmacy) {
         service.saveFarmacy(farmacy);
         return ResponseEntity.ok(farmacy);
     }
 
     @PutMapping("/updateFarmacy/{farmacyId}")
-    public ResponseEntity<Farmacy> updateFarmacy(@PathVariable Long farmacyId, @Valid @RequestBody Farmacy farmacy) {
+    public ResponseEntity<Farmacy> updateFarmacy(@PathVariable Long farmacyId, @RequestBody Farmacy farmacy) {
         service.updateFarmacy(farmacyId, farmacy);
         return ResponseEntity.ok(farmacy);
     }
 
     @DeleteMapping("/deleteFarmacy/{cityId}")
-    public ResponseEntity<Long> deleteFarmacy(@PathVariable Long cityId) {
+    public ResponseEntity<Long> deleteFarmacy(@PathVariable Long farmacyId) {
         service.deleteFarmacy(farmacyId);
         return ResponseEntity.ok(farmacyId);
     }
 
     @GetMapping("/allFarmacies")
-    public ResponseEntity<List<FarmacyDTO>> findAll() {
+    public ResponseEntity<List<Farmacy>> findAll() {
         return ResponseEntity.ok(service.findAll());
     }
 
     @GetMapping("/getFarmacy/{id}")
-    public ResponseEntity<FarmacyDTO> getCityByid(@PathVariable Long id) {
+    public ResponseEntity<Farmacy> getCityByid(@PathVariable Long id) {
         return ResponseEntity.of(service.findById(id));
     }
 
     @GetMapping("/allFarmaciesView")
-    public ResponseEntity<List<FarmacyDTO>> findAllView() {
+    public ResponseEntity<List<Farmacy>> findAllView() {
         return ResponseEntity.ok(service.findAllView());
     }
 }
